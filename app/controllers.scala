@@ -7,6 +7,8 @@ import nl.smartworkx.time.{User, TimeSlot}
 
 object Application extends Secure {
 
+
+
   import views.Application._
 
   def index = {
