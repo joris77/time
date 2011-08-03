@@ -1,0 +1,34 @@
+@(title:String,year : Int, month : Int,timeSlots : Seq[nl.smartworkx.time.TimeSlot] = Nil)
+
+@main(title,"") {
+
+<form id="searchForm" action="/Application/search" method="POST">
+    <input id="searchYear" name="year" value="@year"/>
+    <input id="searchMonth" name="month" value="@month"/>
+    <input type="submit" value="Search">
+</form>
+
+<form id="createForm" action="/Application/create" method="POST"
+      onsubmit="$('#createMonth').val($('#searchMonth').val());$('#createYear').val($('#searchYear').val());">
+    <input id="createYear" type="hidden" name="year"/>
+    <input id="createMonth" type="hidden" name="month"/>
+    <input name="day"/>
+    <input name="beginTimeHours"/>
+    <input name="beginTimeMinutes"/>
+    <input name="endTimeHours"/>
+    <input name="endTimeMinutes"/>
+    <input name="description">
+    <input type="submit" value="New">
+</form>
+
+<ul>
+    @timeSlots.map { t =>
+    <li>@t
+        <button  onclick="$.ajax({
+        type: 'DELETE',
+        url: '/TimeSlot/@t.id'});$(this).parent().remove()">Delete</button>
+    </li>
+    }
+</ul>
+
+}
