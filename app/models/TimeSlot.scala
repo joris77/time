@@ -1,4 +1,4 @@
-package nl.smartworkx.time
+package models
 
 import play.db.anorm.defaults._
 import java.util.{Calendar, GregorianCalendar, Date}
@@ -36,14 +36,10 @@ case class TimeSlot(id:Pk[Long],beginTime : Date, endTime : Option[Date], descri
 }
 
 object TimeSlot extends Magic[TimeSlot]   {
-  def findTimeSlotsByMonth(year: Int, month: Int): scala.List[TimeSlot] = {
-    val startOfMonthCalendar: GregorianCalendar = new GregorianCalendar(year, month - 1, 1)
-    val startOfMonth = startOfMonthCalendar.getTime
-    val maxDay = startOfMonthCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-    val endOfMonth = new GregorianCalendar(year, month - 1, maxDay).getTime
+  def findTimeSlots(beginDate: Date, endDate: Date): scala.List[TimeSlot] = {
     val timeSlots: List[TimeSlot] = SQL("select * from TimeSlot where beginTime > {startOfMonth} and (endTime < {endOfMonth} or endTime is null) order by beginTime")
-      .on("startOfMonth" -> startOfMonth)
-      .on("endOfMonth" -> endOfMonth).as(TimeSlot *)
+      .on("startOfMonth" -> beginDate)
+      .on("endOfMonth" -> endDate).as(TimeSlot *)
     timeSlots
   }
 }

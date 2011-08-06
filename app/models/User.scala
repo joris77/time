@@ -1,4 +1,4 @@
-package nl.smartworkx.time
+package models
 
 import play.db.anorm.defaults._
 import java.lang.Long

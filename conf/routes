@@ -13,7 +13,13 @@ GET     /favicon.ico                            404
 # Map static resources from the /app/public folder to the /public path
 GET     /public/                                staticDir:public
 
+GET     /TimeSlot/*                             Application.search
+
 DELETE  /TimeSlot/{id}                          Application.delete
+
+GET     /TimeSlot/{id}                          Application.show
+
+POST    /TimeSlot                               Application.create
 
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}

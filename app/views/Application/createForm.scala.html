@@ -1,0 +1,23 @@
+@(createForm : controllers.CreateForm = new controllers.CreateForm(beginTimeHours = 8 , beginTimeMinutes = 30))
+@import models._
+@import controllers._
+<form id="createForm" action='@Application.url("TimeSlot")' method="POST">
+    <input name="createForm.id" type="hidden" value="@createForm.id">
+    <table>
+        <tr>
+            <td><label for="date">Date</label></td>
+            <td><input id="date" name="createForm.date" size="10" value="@DateUtil.formatDate(createForm.date)"/></td>
+            <td><label>Begin</label></td>
+            <td><input name="createForm.beginTimeHours" size="2" value="@createForm.beginTimeHours"/>
+                <input name="createForm.beginTimeMinutes" size="2" value="@createForm.beginTimeMinutes"/></td>
+            <td><label>End</label></td>
+            <td><input name="createForm.endTimeHours" size="2" value="@createForm.endTimeHours"/>
+                <input name="createForm.endTimeMinutes" size="2" value="@createForm.endTimeMinutes"/></td>
+        </tr>
+        <tr>
+            <td><label for="description">Description</label></td>
+            <td colspan="5"><input id="description" name="createForm.description" value="@createForm.description"></td>
+        </tr>
+    </table>
+    <input type="submit" value="Save">
+</form>
