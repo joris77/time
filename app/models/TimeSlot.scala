@@ -1,8 +1,14 @@
 package models
 
-import play.db.anorm.defaults._
+import models.defaults._
 import java.util.{Calendar, GregorianCalendar, Date}
 import play.db.anorm._
+import models.DateUtil._
+import java.sql.Timestamp
+import models.DateUtil._
+import play.utils.Scala.MayErr
+import reflect.Manifest
+import org.joda.time._
 
 /**
  * User: joris
@@ -11,35 +17,31 @@ import play.db.anorm._
  *
  *
  */
+case class TimeSlot(id: Pk[Long], beginTime: Option[LocalDateTime], endTime: Option[LocalDateTime], description: Option[String],taskId : Long) {
 
-case class TimeSlot(id:Pk[Long],beginTime : Date, endTime : Option[Date], description : Option[String]) {
+
   override def toString = {
-    var durationString = ""
-    if(duration.isDefined) durationString = duration.get.toString
-    var endTimeString = ""
-    if(endTime.isDefined) endTimeString = DateUtil.format(endTime.get)
-
-    DateUtil.format(beginTime) + " - " + endTimeString + " :  " + durationString + " " + (if(description.isDefined) description.get else "")
+    beginTime + " - " + endTime.map {
+      _.toString
+    } + " :  " + duration + " " + description.getOrElse("")
   }
 
   def duration = {
-    if(endTime.isDefined){
-      val milliseconds1 = beginTime.getTime;
-      val milliseconds2 = endTime.get.getTime;
-      val diff = milliseconds2 - milliseconds1;
-      val diffHours : Double = diff / (60.0 * 60.0 * 1000.0);
-      Some(diffHours)
-    }else{
+    if (beginTime.isDefined && endTime.isDefined) {
+      Some(new Duration(beginTime.get.toDateTime(DateTimeZone.UTC), endTime.get.toDateTime(DateTimeZone.UTC)));
+    } else {
       None
     }
   }
+
+  def task = Task.find("id = {id}").on("id" -> taskId).first()
+
 }
 
-object TimeSlot extends Magic[TimeSlot]   {
-  def findTimeSlots(beginDate: Date, endDate: Date): scala.List[TimeSlot] = {
-    val timeSlots: List[TimeSlot] = SQL("select * from TimeSlot where beginTime > {startOfMonth} and (endTime < {endOfMonth} or endTime is null) order by beginTime")
-      .on("startOfMonth" -> beginDate)
-      .on("endOfMonth" -> endDate).as(TimeSlot *)
-    timeSlots
+object TimeSlot extends Magic[TimeSlot] {
+
+  def findTimeSlots(beginDate: Option[LocalDate], endDate: Option[LocalDate]) = {
+    SQL("select * from TimeSlot where beginTime > {beginDate} and (endTime < {endDate} or endTime is null) order by beginTime")
+      .on("beginDate" -> beginDate.get.toDateTimeAtStartOfDay().toLocalDateTime, "endDate" -> endDate.get.plusDays(1).toDateTimeAtStartOfDay.toLocalDateTime).as(TimeSlot *)
   }
 }

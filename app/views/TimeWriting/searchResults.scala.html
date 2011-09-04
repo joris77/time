@@ -1,0 +1,44 @@
+@(results : Seq[models.TimeSlot] = Nil)
+
+@import models._
+@import controllers.Formatting._
+@import controllers._
+
+<table>
+    <thead>
+    <tr>
+        <th>Begin</th>
+        <th>Eind</th>
+        <th>Duur</th>
+         <th>Taak</th>
+        <th>Omschrijving</th>
+    </tr>
+    </thead>
+    <tbody>
+    @results.map { t =>
+    <tr>
+        <td>@t.beginTime.format</td>
+        <td>@t.endTime.format</td>
+        <td>@t.duration.format</td>
+        <td>@t.task</td>
+        <td>@t.description</td>
+        <td>
+            <button onclick="$.ajax({
+        type: 'DELETE',
+        url: '@action(TimeWriting.delete(t.id()))'});$(this).closest('tr').remove()">Delete
+            </button>
+        </td>
+        <td>
+            <button onclick="$('#new').load('@action(TimeWriting.show(t.id()))');">Update
+            </button>
+        </td>
+    </tr>
+    }
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="2"/>
+        <td>@(new TimeSlotCalculations(results).total)</td>
+    </tr>
+    </tfoot>
+</table>

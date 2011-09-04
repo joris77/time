@@ -5,7 +5,7 @@
 *       /                                       module:secure
 
 # Home page
-GET     /                                       Application.index
+GET     /                                       TimeWriting.index
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
@@ -13,13 +13,15 @@ GET     /favicon.ico                            404
 # Map static resources from the /app/public folder to the /public path
 GET     /public/                                staticDir:public
 
-GET     /TimeSlot/*                             Application.search
+GET     /TimeSlot/*                             TimeWriting.search
 
-DELETE  /TimeSlot/{id}                          Application.delete
+DELETE  /TimeSlot/{id}                          TimeWriting.delete
 
-GET     /TimeSlot/{id}                          Application.show
+GET     /TimeSlot/{id}                          TimeWriting.show
 
-POST    /TimeSlot                               Application.create
+POST    /TimeSlot                               TimeWriting.save
+
+GET     /Timesheet.pdf                          TimeWriting.timesheet(format: 'pdf')
 
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}

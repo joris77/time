@@ -1,0 +1,26 @@
+@(title:String,beginDate : String, endDate : String ,timeSlots : Seq[models.TimeSlot] = Nil)
+
+@import models._
+@import controllers._
+
+@main(title,"") {
+<div id="search">
+    <form id="searchForm" action='/TimeSlot' method="GET">
+        <input name="beginDate" value="@beginDate"/>
+        <input name="endDate" value="@endDate"/>
+        <input type="submit" value="Search">
+        <input type="submit" value="Timesheet">
+    </form>
+    <button name="timesheet" onclick="window.open('/Timesheet.pdf?beginDate=' + $('input[name=beginDate]').val() + '&endDate=' + $('input[name=endDate]').val(),'Timesheet','width=400,height=200')">Create timesheet</button>
+</div>
+
+<div id="new">
+    @timeSlotForm()
+</div>
+
+<div id="searchResults">
+    @searchResults(timeSlots)
+</div>
+</ul>
+
+}

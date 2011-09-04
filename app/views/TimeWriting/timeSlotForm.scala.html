@@ -1,0 +1,32 @@
+@(id: Option[Long] = None,
+date: Option[String] = Some(models.DateUtil.format(new org.joda.time.LocalDate())),
+beginTimeHours: Option[Int] = Some(models.DateUtil.currentHours),
+beginTimeMinutes: Option[Int] = Some(models.DateUtil.currentMinutes),
+endTimeHours: Option[Int] = None,
+endTimeMinutes: Option[Int] = None,
+description: Option[String] = None)
+
+@import controllers._
+@import models._
+
+
+<form id="createForm" action='/TimeSlot' method="POST">
+    <input name="id" type="hidden" value="@id">
+    <table>
+        <tr>
+            <td><label for="date">Date</label></td>
+            <td><input id="date" name="date" size="10" value="@date"/></td>
+            <td><label>Begin</label></td>
+            <td><input name="beginTimeHours" size="2" value="@beginTimeHours"/>
+                <input name="beginTimeMinutes" size="2" value="@beginTimeMinutes"/></td>
+            <td><label>End</label></td>
+            <td><input name="endTimeHours" size="2" value="@endTimeHours"/>
+                <input name="endTimeMinutes" size="2" value="@endTimeMinutes"/></td>
+        </tr>
+        <tr>
+            <td><label for="description">Description</label></td>
+            <td colspan="5"><input id="description" name="description" value="@description"></td>
+        </tr>
+    </table>
+    <input type="submit" value="Save">
+</form>

@@ -2,6 +2,9 @@ package models
 
 import java.text.SimpleDateFormat
 import java.util.{GregorianCalendar, Calendar, Date}
+import xsbti.api.Val
+import org.joda.time.format.{DateTimeFormat, DateTimeFormatter}
+import org.joda.time.{LocalDateTime, DateTimeFieldType, LocalDate}
 
 /**
  * User: joris
@@ -12,51 +15,31 @@ import java.util.{GregorianCalendar, Calendar, Date}
  */
 
 object DateUtil {
-  def getMinutes(date: Date)= gregCal(date).get(Calendar.MINUTE)
 
-  def getOptionalMinutes(date: Option[Date]): Option[Int] = if(date.isDefined) Some(getMinutes(date.get)) else None
-
-
-  def getHours(date : Date) = gregCal(date).get(Calendar.HOUR_OF_DAY)
-
-  def getOptionalHours(date: Option[Date]): Option[Int] = if(date.isDefined) Some(getHours(date.get)) else None
-
-
-  val DATETIME_FORMAT = "yyyy-MM-dd HH:mm"
   val DATE_FORMAT = "yyyy-MM-dd"
+  val DATE_TIME_FORMAT = DATE_FORMAT + " HH:mm"
+  val DATE_TIME_FORMATTER = DateTimeFormat.forPattern(DATE_TIME_FORMAT)
+  val DATE_FORMATTER = DateTimeFormat.forPattern(DATE_FORMAT)
 
-   def format(date : Date ) = {
-     new SimpleDateFormat(DATETIME_FORMAT).format(date)
-   }
 
-  def formatDate(date : Date ) = {
-     new SimpleDateFormat(DATE_FORMAT).format(date)
-   }
 
-  def adjustTimeForDate(hours: Int, minutes: Int, date: Date): Date = {
-    var cal = new GregorianCalendar()
-    cal.setTime(date)
-    cal.set(Calendar.HOUR_OF_DAY, hours)
-    cal.set(Calendar.MINUTE, minutes)
-    cal.getTime
+  def format(date: LocalDateTime) = {
+    DATE_TIME_FORMATTER.print(date)
   }
 
-  def endOfMonth(date : Date) = {
-    val cal = new GregorianCalendar()
-    cal.setTime(date)
-    val maxDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-    new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), maxDay).getTime
+  def format(date: LocalDate) = {
+    DATE_FORMATTER.print(date)
   }
 
-  def beginOfMonth(date :Date) = {
-    val cal: GregorianCalendar = new GregorianCalendar()
-    cal.setTime(date)
-    new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), 1).getTime
+  def currentHours = new LocalDateTime().getHourOfDay
+
+  def currentMinutes = new LocalDateTime().getMinuteOfHour
+
+  def endOfMonth(date: LocalDate)  = {
+    date.property(DateTimeFieldType.dayOfMonth()).withMaximumValue()
   }
 
-  def gregCal(date : Date) = {
-    val cal = new GregorianCalendar()
-    cal.setTime(date)
-    cal
+  def beginOfMonth(date: LocalDate) = {
+    date.property(DateTimeFieldType.dayOfMonth()).withMinimumValue()
   }
 }
