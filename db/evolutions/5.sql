@@ -22,7 +22,7 @@ alter table task add column organisationId bigint(20);
 alter table task add foreign key (organisationId) references organisation (id);
 
 
-insert into address (street,houseNumber,city,postalCode) ('Plotterweg','26-28','Amersfoort','3821 BB');
+insert into address (street,houseNumber,city,postalCode) values ('Plotterweg','26-28','Amersfoort','3821 BB');
 
 
 insert into organisation (name, organisationId) values ('Fa-med',1);

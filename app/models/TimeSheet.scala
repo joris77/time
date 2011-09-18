@@ -21,7 +21,7 @@ class TimeSheet(organisation: Organisation, beginDate: LocalDate, endDate: Local
 
   val table = new PdfPTable(2)
   table.getDefaultCell.setBorderWidth(0)
-  table.getDefaultCell.s
+  //table.getDefaultCell.s
   table.setWidths(Array(3, 2))
 
   val leftColumn = new PdfPCell()
