@@ -6,6 +6,6 @@ CREATE TABLE TimeSlot (
     endTime datetime,
     description varchar(255),
     PRIMARY KEY (id)
-);
+) ENGINE=INNODB;
  
 # --- !Downs
