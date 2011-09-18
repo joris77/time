@@ -11,10 +11,8 @@ import play.db.anorm._
  *
  *
  */
-case class Task(id: Pk[Long],name : String) {
-             override def toString = name
+case class Task(id: Pk[Long], name: String, organisationId: Long) {
+  override def toString = name
 }
 
-object Task extends Magic[Task]{
-
-}
+object Task extends Magic[Task]

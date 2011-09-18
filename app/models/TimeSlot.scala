@@ -17,7 +17,7 @@ import org.joda.time._
  *
  *
  */
-case class TimeSlot(id: Pk[Long], beginTime: Option[LocalDateTime], endTime: Option[LocalDateTime], description: Option[String],taskId : Long) {
+case class TimeSlot(id: Pk[Long], beginTime: Option[LocalDateTime], endTime: Option[LocalDateTime], description: Option[String], taskId: Long) {
 
 
   override def toString = {
@@ -38,10 +38,19 @@ case class TimeSlot(id: Pk[Long], beginTime: Option[LocalDateTime], endTime: Opt
 
 }
 
-object TimeSlot extends Magic[TimeSlot] {
+object TimeSlot extends Magic[TimeSlot] with TimeSlotRepository{
 
   def findTimeSlots(beginDate: Option[LocalDate], endDate: Option[LocalDate]) = {
     SQL("select * from TimeSlot where beginTime > {beginDate} and (endTime < {endDate} or endTime is null) order by beginTime")
       .on("beginDate" -> beginDate.get.toDateTimeAtStartOfDay().toLocalDateTime, "endDate" -> endDate.get.plusDays(1).toDateTimeAtStartOfDay.toLocalDateTime).as(TimeSlot *)
   }
+
+  override def findTimeSlots(beginDate: LocalDate, endDate: LocalDate) = {
+    SQL("select * from TimeSlot where beginTime > {beginDate} and endTime < {endDate} order by beginTime")
+      .on("beginDate" -> beginDate.toDateTimeAtStartOfDay().toLocalDateTime, "endDate" -> endDate.plusDays(1).toDateTimeAtStartOfDay.toLocalDateTime).as(TimeSlot *)
+  }
+}
+
+trait TimeSlotRepository {
+  def findTimeSlots(beginDate: LocalDate, endDate: LocalDate): List[TimeSlot]
 }

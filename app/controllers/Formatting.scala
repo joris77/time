@@ -21,7 +21,7 @@ object Formatting {
   }
 
   class DurationFormatter(d : Duration) extends  Formatter {
-      def format = d.toPeriod(GregorianChronology.getInstance()).getHours() + ":" + d.toPeriod(GregorianChronology.getInstance()).getMinutes()
+      def format : String = d.toPeriod(GregorianChronology.getInstance()).getHours() + ":" + d.toPeriod(GregorianChronology.getInstance()).getMinutes()
     }
 
   object NoneFormatter extends Formatter {

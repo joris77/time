@@ -10,7 +10,7 @@ import org.joda.time.{LocalDateTime, LocalDate}
 import models.TimeSlot._
 import com.itextpdf.text.pdf.PdfWriter
 import com.itextpdf.text.{Document, Paragraph}
-import java.io.{ByteArrayInputStream, ByteArrayOutputStream, FileOutputStream, FileInputStream}
+import java.io._
 
 object TimeWriting extends Secure {
 
@@ -76,24 +76,15 @@ object TimeWriting extends Secure {
       timeSlot.description)
   }
 
+
+
   def timesheet(@As(binder = classOf[LocalDateTypeBinder]) beginDate: LocalDate,
                 @As(binder = classOf[LocalDateTypeBinder]) endDate: LocalDate) = {
 
-    val document = new Document();
-    // step 2
-    val outputStream: ByteArrayOutputStream = new ByteArrayOutputStream
-    PdfWriter.getInstance(document, outputStream);
-    // step 3
-    document.open();
-    // step 4
-    document.add(new Paragraph("Hello World!"));
-    // step 5
-    document.close();
 
-    outputStream
 
-    new RenderBinary(new ByteArrayInputStream(outputStream.toByteArray())
-      , "Timesheet.pdf", "application/pdf", true)
+    //new RenderBinary(new ByteArrayInputStream(outputStream.toByteArray())
+    //  , "Timesheet.pdf", "application/pdf", true)
 
   }
 
