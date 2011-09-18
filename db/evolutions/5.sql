@@ -1,5 +1,5 @@
 # --- !Ups
-CREATE TABLE address (
+CREATE TABLE Address (
     id bigint(20) NOT NULL AUTO_INCREMENT,
     street varchar(255),
     houseNumber varchar(255),
@@ -15,18 +15,16 @@ CREATE TABLE Organisation (
     PRIMARY KEY (id)
 );
 
-alter table organisation add foreign key (addressId) references address (id);
+alter table Organisation add foreign key (addressId) references Address (id);
 
-alter table task add column organisationId bigint(20);
+alter table Task add column organisationId bigint(20);
 
-alter table task add foreign key (organisationId) references organisation (id);
+alter table Task add foreign key (organisationId) references Organisation (id);
 
+insert into Address (street,houseNumber,city,postalCode) values ('Plotterweg','26-28','Amersfoort','3821 BB');
 
-insert into address (street,houseNumber,city,postalCode) values ('Plotterweg','26-28','Amersfoort','3821 BB');
+insert into Organisation (name, organisationId) values ('Fa-med',1);
 
-
-insert into organisation (name, organisationId) values ('Fa-med',1);
-
-update task set organisationId = 1;
+update Task set organisationId = 1;
 
 # --- !Downs

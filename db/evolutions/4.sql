@@ -1,7 +1,7 @@
 # --- !Ups
 
-alter table timeslot add column taskId bigint(20);
+alter table Timeslot add column taskId bigint(20);
 
-alter table timeslot add foreign key (taskId) references task (id);
+alter table Timeslot add foreign key (taskId) references Task (id);
 
 # --- !Downs
