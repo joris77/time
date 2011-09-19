@@ -1,1 +1,6 @@
-Test
+Deployment on server: 
+
+/usr/local/time
+/usr/local/play
+
+installed scala dev by cloning in PLAY_HOME/modules
