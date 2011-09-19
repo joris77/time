@@ -2,6 +2,7 @@ package models
 
 
 import controllers.Formatting.DurationFormatter
+import collection.Seq
 
 /**
  * User: joris
@@ -12,5 +13,9 @@ import controllers.Formatting.DurationFormatter
  */
 
 class TimeSlotCalculations(val slots : Seq[TimeSlot]) {
-     def total = if(slots.size > 0) new DurationFormatter(slots.filter(_.duration.isDefined).map(_.duration.get).reduceLeft(_.plus(_))).format else "0:0"
+     def total = {
+       val slotsWithDuration = slots.filter(_.duration.isDefined)
+       if(slotsWithDuration.nonEmpty) new DurationFormatter(slotsWithDuration.map(_.duration.get).reduceLeft(_.plus(_))).format else "0:0"
+     }
+
 }

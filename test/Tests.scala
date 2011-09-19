@@ -23,6 +23,14 @@ class TimeSlotTotalTests extends  FunSuite  {
     }
   }
 
+  test("total without duration slots"){
+    val t1 = mock(classOf[TimeSlot])
+    when(t1.duration).thenReturn(None)
+    expect("0:0"){
+      new TimeSlotCalculations(List(t1)).total
+    }
+  }
+
   test("total with None"){
     val t1 = mock(classOf[TimeSlot])
     val t2 = mock(classOf[TimeSlot])
