@@ -4,13 +4,13 @@ import play._
 import mvc.results.RenderBinary
 import play.data.binding.As
 import play.db.anorm._
-import models.{DateUtil, User, TimeSlot}
 import models.DateUtil._
 import org.joda.time.{LocalDateTime, LocalDate}
 import models.TimeSlot._
 import com.itextpdf.text.pdf.PdfWriter
 import com.itextpdf.text.{Document, Paragraph}
 import java.io._
+import models._
 
 object TimeWriting extends Secure {
 
@@ -81,10 +81,8 @@ object TimeWriting extends Secure {
   def timesheet(@As(binder = classOf[LocalDateTypeBinder]) beginDate: LocalDate,
                 @As(binder = classOf[LocalDateTypeBinder]) endDate: LocalDate) = {
 
-
-
-    //new RenderBinary(new ByteArrayInputStream(outputStream.toByteArray())
-    //  , "Timesheet.pdf", "application/pdf", true)
+    val output = new TimeSheet(new Organisation(NotAssigned, "Fa-med", 1L),beginDate, endDate)
+    new RenderBinary(new ByteArrayInputStream(output.asOutputStream.toByteArray)  , "Timesheet.pdf", "application/pdf", true)
 
   }
 

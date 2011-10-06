@@ -22,7 +22,7 @@ class TimeSheet(organisation: Organisation, beginDate: LocalDate, endDate: Local
   val table = new PdfPTable(2)
   table.getDefaultCell.setBorderWidth(0)
   //table.getDefaultCell.s
-  table.setWidths(Array(3, 2))
+  table.setWidths(Array(4, 1))
 
   val leftColumn = new PdfPCell()
   leftColumn.setBorderWidth(0)
@@ -33,10 +33,10 @@ class TimeSheet(organisation: Organisation, beginDate: LocalDate, endDate: Local
 
   val rightColumn = new PdfPCell()
   rightColumn.setBorderWidth(0)
-  rightColumn.addElement(new ProjectTable(organisation, beginDate.getYear, beginDate.getMonthOfYear))
-  rightColumn.addElement(new PersonnelTable())
-  rightColumn.addElement(new RemarkTable())
-  rightColumn.addElement(new SignatureTable())
+  //rightColumn.addElement(new ProjectTable(organisation, beginDate.getYear, beginDate.getMonthOfYear))
+  //rightColumn.addElement(new PersonnelTable())
+  //rightColumn.addElement(new RemarkTable())
+  //rightColumn.addElement(new SignatureTable())
   table.addCell(rightColumn)
 
   document.add(table);
