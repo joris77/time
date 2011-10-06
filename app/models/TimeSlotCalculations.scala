@@ -15,7 +15,7 @@ import collection.Seq
 class TimeSlotCalculations(val slots : Seq[TimeSlot]) {
      def total = {
        val slotsWithDuration = slots.filter(_.duration.isDefined)
-       if(slotsWithDuration.nonEmpty) new DurationFormatter(slotsWithDuration.map(_.duration.get).reduceLeft(_.plus(_))).format else "00:00"
+       if(slotsWithDuration.nonEmpty) new DurationFormatter(slotsWithDuration.map(_.duration.get).reduceLeft(_.plus(_))).format else ""
      }
 
 }
